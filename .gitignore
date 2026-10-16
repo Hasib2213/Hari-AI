@@ -1,0 +1,56 @@
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Type Checking & Linting
+.mypy_cache/
+.pytype/
+.ruff_cache/
+
+# Playwright & Browser Automation Artifacts
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
+# Logs & Temporary Files
+*.log
+*.pid
+*.tmp
+*.temp
+
+# IDE & Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+desktop.ini
