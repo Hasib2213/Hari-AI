@@ -6,6 +6,7 @@ from ..repositories import jobs,users
 from ..models.schemas import UserProfile,JobCreate
 from ..agents.resume import ResumeAgent
 from ..services.gemini import GeminiService
+from ..utils.serialize import serialize
 
 router=APIRouter(prefix="/api/resumes",tags=["resumes"])
 
@@ -26,9 +27,8 @@ async def custom(user_id:str,job_id:str):
     p,j=await context(user_id,job_id)
     r=await ResumeAgent(GeminiService()).custom(p,j)
     d=r.model_dump(); d.update({"user_id":user_id,"job_id":job_id,"status":"draft","created_at":datetime.now(timezone.utc)})
-    ins=await db.resumes.insert_one(d)
-    d["id"]=str(ins.inserted_id)
-    return d
+    await db.resumes.insert_one(d)
+    return serialize(d)
 
 @router.post("/{user_id}/{resume_id}/approve")
 async def approve(user_id:str,resume_id:str):
