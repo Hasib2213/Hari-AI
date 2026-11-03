@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import get_settings
 from .db import ping_db,close_db
-from .api import users,jobs,matching,agent,resumes,applications,health
+from .api import users,jobs,matching,agent,resumes,applications,health,interview
 
 settings=get_settings()
 
@@ -22,3 +22,4 @@ app.include_router(matching.router)
 app.include_router(agent.router)
 app.include_router(resumes.router)
 app.include_router(applications.router)
+app.include_router(interview.router)

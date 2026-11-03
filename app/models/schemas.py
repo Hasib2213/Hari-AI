@@ -104,3 +104,105 @@ class ApplicationRunResponse(BaseModel):
     current_step: str
     jobs_remaining: int
     queue: list[dict[str, Any]]
+
+class InterviewQuestion(BaseModel):
+    id: str | None = None
+    company: str
+    role: str
+    category: Literal["behavioral", "technical", "system_design", "situational", "leadership"]
+    difficulty: Literal["easy", "medium", "hard"] = "medium"
+    question: str
+    tags: list[str] = []
+
+class InterviewQuestionList(BaseModel):
+    questions: list[InterviewQuestion]
+
+class QuestionGuide(BaseModel):
+    interviewer_intent: str
+    key_points_to_cover: list[str]
+    recommended_framework: str
+    ideal_model_answer: str
+    common_pitfalls: list[str]
+
+class STARComponentScore(BaseModel):
+    score: int = Field(ge=0, le=100)
+    feedback: str
+
+class STAREvaluationResponse(BaseModel):
+    overall_score: int = Field(ge=0, le=100)
+    situation: STARComponentScore
+    task: STARComponentScore
+    action: STARComponentScore
+    result: STARComponentScore
+    strengths: list[str]
+    areas_for_improvement: list[str]
+    recommended_rewrite: str
+
+class InterviewPracticeRequest(BaseModel):
+    question_id: str | None = None
+    question_text: str
+    company: str = "General"
+    role: str = "Software Engineer"
+    candidate_answer: str
+    user_id: str | None = None
+
+class WorkExperienceItem(BaseModel):
+    company: str
+    title: str
+    start_date: str = ""
+    end_date: str = ""
+    bullets: list[str] = []
+
+class ParsedResumeProfile(BaseModel):
+    name: str = ""
+    email: str = ""
+    phone: str | None = None
+    location: str | None = None
+    linkedin_url: str | None = None
+    github_url: str | None = None
+    portfolio_url: str | None = None
+    summary: str = ""
+    target_titles: list[str] = []
+    skills: list[str] = []
+    years_experience: float = 0
+    education: list[str] = []
+    work_experience: list[WorkExperienceItem] = []
+    raw_text: str = ""
+
+class CopilotTurnResult(BaseModel):
+    intent: IntentResult
+    assistant_message: str
+    suggested_followups: list[str] = []
+
+class CopilotChatResponse(BaseModel):
+    assistant_message: str
+    intent: IntentResult
+    jobs: list[dict[str, Any]] = []
+    suggested_followups: list[str] = []
+
+class ChatMessageRecord(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str
+    created_at: str | None = None
+
+class BulletImprovement(BaseModel):
+    original: str
+    optimized: str
+    action_verb: str
+    quantifiable_metric: str
+    why_better: str
+
+class OptimizedSectionResponse(BaseModel):
+    company: str
+    title: str
+    issues_fixed: list[str] = []
+    optimized_bullets: list[str]
+    bullet_breakdowns: list[BulletImprovement] = []
+
+class OptimizeSectionRequest(BaseModel):
+    company: str
+    title: str
+    bullets: list[str] = []
+    raw_description: str | None = ""
+    target_role: str | None = ""
+    user_id: str | None = None
